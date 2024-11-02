@@ -34,7 +34,7 @@ app.get('/todos',(req,res) => {
 app.post('/todos',(req,res) => {
     const newTodo = req.body;
     todos.push(newTodo);
-    res.json({
+    res.status(201).json({  // see we are sending 201 status msg, and a normal txt response too
         message:'new todo added!'
     })
 })
@@ -47,13 +47,18 @@ app.put('/todos/:id',(req,res) => {
     
     if(TodoIndex !== -1){
         todos[TodoIndex] = {
-                 id:TodoId,
-                 ...newTodoData
-                }
-    }
-    res.json({
+                            id:TodoId,
+                            ...newTodoData
+                            }
+        res.json({
         message:"todo updated successfully!"
-    })
+        })
+    }else {
+        res.status(400).json({
+            message:"ur todo id is not valid"
+        })
+    }
+    
 })
 
 //delete
